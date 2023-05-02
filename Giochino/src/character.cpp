@@ -34,6 +34,9 @@ void Character::jump() {
 
 }
 
+void Character::moveLaserRight(){
+	x_pos++;
+}
 
 void Character::fall() {
     if (y_pos < dim_riga - 2) { // controlla che il personaggio non vada fuori dalla cornice
@@ -57,17 +60,34 @@ void Character::displayEnemy() {
     mvaddch(y_pos + 2 , x_pos , ' '); // cancella il carattere precedente
 
 }
+void Character::displayLaser() {
+	attron(COLOR_PAIR(2));
+    mvaddch(y_pos, x_pos, '-');
+    attroff(COLOR_PAIR(2));
+    mvaddch(y_pos, x_pos - 1, ' '); // cancella il carattere precedente
+    mvaddch(y_pos , x_pos + 1, ' '); // cancella il carattere precedente
+    mvaddch(y_pos + 2 , x_pos , ' '); // cancella il carattere precedente
+}
 void Character::displayAtt() {
+	attron(COLOR_PAIR(1));
     mvaddch(y_pos, x_pos, '/');
+    attroff(COLOR_PAIR(1));
     mvaddch(y_pos, x_pos - 1, ' '); // cancella il carattere precedente
     mvaddch(y_pos , x_pos + 1, ' '); // cancella il carattere precedente
     mvaddch(y_pos + 2 , x_pos , ' '); // cancella il carattere precedente
 
 }
 void Character::displayParry() {
+	attron(COLOR_PAIR(1));
     mvaddch(y_pos, x_pos, '|');
+    attroff(COLOR_PAIR(1));
     mvaddch(y_pos, x_pos - 1, ' '); // cancella il carattere precedente
     mvaddch(y_pos , x_pos + 1, ' '); // cancella il carattere precedente
     mvaddch(y_pos + 2 , x_pos , ' '); // cancella il carattere precedente
 
 }
+
+void Character::danno(){
+	printw("colpitooooooooo");
+}
+

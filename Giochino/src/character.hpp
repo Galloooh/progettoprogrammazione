@@ -15,12 +15,16 @@ public:
     Character(int x, int y);
     void moveLeft();
     void moveRight();
+    void moveLaserRight();
     void jump();
     void fall();
     void display();
     void displayAtt();
     void displayParry();
     void displayEnemy();
+    void displayLaser();
+    void danno();
+
     int x_pos, y_pos;
 };
 

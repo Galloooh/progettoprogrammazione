@@ -13,12 +13,16 @@ int main(){
     noecho();
     cbreak();
     refresh();
-
+    start_color();
+    init_pair(1, COLOR_WHITE, COLOR_BLUE);
+    init_pair(2, COLOR_WHITE, COLOR_RED);
     game Game = game (dim_colonna, dim_riga);
 
 
-	while(true){
-		Game.moveCharacter();
+	while(Game.gamerunning()){
+		Game.setEnemy();
+		Game.setCharacter();
+		refresh();
 	}
     endwin();
 

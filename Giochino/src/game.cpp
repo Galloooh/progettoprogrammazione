@@ -5,40 +5,48 @@
  *      Author: francesco
  */
 #include "game.hpp"
-
-
-
 game::game(int dim_colonna, int dim_riga){
     mappa = Map(dim_colonna, dim_riga);
 	personaggio = Character(dim_colonna/2, dim_riga-2); // istanza il personaggio
-	nemico = Character(dim_colonna/2, dim_riga-2);
+	nemico = Character(dim_colonna/3, dim_riga-2);
 }
 
+bool game::gamerunning(){
+	return true;
+}
+
+bool parrying = false;
+
 int c;
+//personaggio è due volte più veloce di nemico
+void game::setCharacter(){
 
-void game::moveCharacter(){
-
-	timeout(1000);
+	timeout(500);
 
     c = getch();
 
+    					mappa.draw(personaggio.x_pos, personaggio.y_pos, 'P');
+        		        mappa.canc(personaggio.x_pos, personaggio.y_pos, 'P');
+        		        personaggio.display();
     		switch(c) {
     	            case 'a':
     	                personaggio.moveLeft();
+    	                personaggio.moveLeft();
+
     	                break;
     	            case 'd':
     	                personaggio.moveRight();
+    	                personaggio.moveRight();
+
     	                break;
     	            case 'w':
     	                personaggio.jump();
     	                personaggio.display();
-    	                refresh();
     	                mappa.canc(personaggio.x_pos, personaggio.y_pos, 'P');
     	                usleep(100000);
     	                mappa.canc(personaggio.x_pos, personaggio.y_pos, 'P');
     	                personaggio.jump();
     	                personaggio.display();
-    	                refresh();
     	                mappa.canc(personaggio.x_pos, personaggio.y_pos, 'P');
     	                usleep(100000);
     	                mappa.canc(personaggio.x_pos, personaggio.y_pos, 'P');
@@ -57,13 +65,11 @@ void game::moveCharacter(){
     	                //ritorno a terra
     					personaggio.fall();
     					personaggio.display();
-    	                refresh();
     	                mappa.canc(personaggio.x_pos, personaggio.y_pos, 'P');
     	                usleep(100000);
     	                mappa.canc(personaggio.x_pos, personaggio.y_pos, 'P');
     	                personaggio.fall();
     	                personaggio.display();
-    	                refresh();
     	                mappa.canc(personaggio.x_pos, personaggio.y_pos, 'P');
     	                usleep(100000);
     	                mappa.canc(personaggio.x_pos, personaggio.y_pos, 'P');
@@ -71,30 +77,58 @@ void game::moveCharacter(){
     	                break;
     	            case 'e':
     	            	personaggio.displayAtt();
-    	            	refresh();
     	                usleep(300000);
     	                break;
     	            case 'p':
     	            	personaggio.displayParry();
-    	            	refresh();
+    	            	parrying=true;
     	            	usleep(300000);
     	            	break;
     	            default:
     	                break;
     	        }
 
-    				mappa.draw(personaggio.x_pos, personaggio.y_pos, 'P');
-    		        mappa.canc(personaggio.x_pos, personaggio.y_pos, 'P');
-    		        personaggio.display();
-    		        refresh();
-    		        usleep(1000);
-
-    		        mappa.draw(nemico.x_pos, nemico.y_pos, 'S');
-    		        mappa.canc(nemico.x_pos, nemico.y_pos, 'S');
-    		        nemico.displayEnemy();
-    		        nemico.moveLeft();
-    		        refresh();
 }
+
+void game::setEnemy(){
+
+	nemico.displayEnemy();
+
+	if( nemico.x_pos == (personaggio.x_pos-6) ){
+		int i=0;
+		while(i<6){
+			nemico.displayLaser();
+			nemico.moveLaserRight();
+			usleep(100000);
+		    mappa.canc(nemico.x_pos, nemico.y_pos, '-');
+		    i++;
+		}
+
+	//assegnazione danno
+	if( nemico.x_pos == personaggio.x_pos && ( parrying == false )){
+		nemico.danno();
+	}
+	else {
+		printw("colpo deviato");
+	}
+    mappa.canc(nemico.x_pos, nemico.y_pos, '-');
+    //spostamento nemico
+    nemico.moveLeft();
+    nemico.moveLeft();
+	nemico.displayEnemy();
+
+	}
+
+
+	else if(personaggio.x_pos>nemico.x_pos){
+	nemico.moveRight();
+	}
+	else if(personaggio.x_pos<nemico.x_pos){
+	nemico.moveLeft();
+	}
+	parrying = false;
+}
+
 
 
 

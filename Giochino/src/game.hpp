@@ -20,7 +20,10 @@
 class game {
 public:
 	game (int colonna, int riga);
-	void moveCharacter();
+	void setCharacter();
+	void setEnemy();
+	bool gamerunning();
+	void resetMoves();
 	Map mappa;
 	Character personaggio;
 	Character nemico;

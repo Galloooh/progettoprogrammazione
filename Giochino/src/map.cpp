@@ -67,8 +67,8 @@ void Map::draw(int x, int y, char c)
     refresh();
 }
 void Map::canc(int x, int y, char c){
-    mvaddch(y , x - 1, ' '); // cancella il carattere precedente
-    mvaddch(y , x + 1, ' '); // cancella il carattere precedente
+    mvaddch(y , x - 2, ' '); // cancella il carattere precedente
+    mvaddch(y , x + 2, ' '); // cancella il carattere precedente
     mvaddch(y + 2 , x, ' '); // cancella il carattere precedente
     mvaddch(y + 1 , x, ' '); // cancella il carattere precedente
     mvaddch(y - 2 , x, ' '); // cancella il carattere precedente
